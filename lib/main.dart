@@ -1,4 +1,4 @@
-import 'package:e_commerce/mainPage.dart';
+import 'package:e_commerce/RegistPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,8 +10,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.white, displayColor: Colors.white)),
-      home: Mainpage()
+      theme: ThemeData(
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.white, displayColor: Colors.white),
+        useMaterial3: true,
+        ),
+      home: Registpage()
     );
   }
 }
