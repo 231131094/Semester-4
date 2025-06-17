@@ -1,3 +1,4 @@
+import 'package:e_commerce/widgets/BottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce/editProfileScreen.dart';
 import 'package:e_commerce/user_provider.dart';

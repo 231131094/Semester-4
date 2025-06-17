@@ -1,6 +1,6 @@
 import 'package:e_commerce/RegistPage.dart';
 import 'package:e_commerce/account.dart';
-import 'package:e_commerce/mainPage.dart';
+import '../mainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:e_commerce/user_provider.dart';

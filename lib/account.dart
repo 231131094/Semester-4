@@ -1,3 +1,4 @@
+import 'package:e_commerce/widgets/BottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce/user_provider.dart';
 import 'package:e_commerce/profile.dart';
@@ -115,22 +116,26 @@ class AccountScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'For You'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Bag'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: 'Transaction',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
-        ],
-        currentIndex: 3,
-        onTap: (index) {
-          // Handle navigation
-        },
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   type: BottomNavigationBarType.fixed,
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'For You'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Bag'),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.receipt),
+      //       label: 'Transaction',
+      //     ),
+      //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
+      //   ],
+      //   currentIndex: 3,
+      //   onTap: (index) {
+      //     // Handle navigation
+      //   },
+      // ),
+
+      bottomNavigationBar: Bottomnavbar(),
+
+      
     );
   }
 

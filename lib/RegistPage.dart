@@ -1,4 +1,4 @@
-import 'package:e_commerce/LoginPage.dart';
+import 'package:e_commerce/Pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:e_commerce/user_provider.dart';
