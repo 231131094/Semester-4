@@ -91,29 +91,50 @@ class GrafikScreen extends StatelessWidget {
                         showTitles: true,
                         interval: 2,
                         reservedSize: 28,
-                        getTitlesWidget: (value, meta) => Text(
-                          value.toInt().toString(),
-                          style: const TextStyle(color: Colors.black, fontSize: 10),
-                        ),
+                        getTitlesWidget:
+                            (value, meta) => Text(
+                              value.toInt().toString(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                              ),
+                            ),
                       ),
                     ),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
                         getTitlesWidget: (value, meta) {
-                          final days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                          final days = [
+                            'Sun',
+                            'Mon',
+                            'Tue',
+                            'Wed',
+                            'Thu',
+                            'Fri',
+                            'Sat',
+                          ];
                           return Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(
-                              value.toInt() < days.length ? days[value.toInt()] : '',
-                              style: const TextStyle(color: Colors.black, fontSize: 10),
+                              value.toInt() < days.length
+                                  ? days[value.toInt()]
+                                  : '',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                              ),
                             ),
                           );
                         },
                       ),
                     ),
-                    rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    rightTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
                   ),
                   gridData: FlGridData(show: false),
                   borderData: FlBorderData(show: false),
@@ -143,43 +164,67 @@ class GrafikScreen extends StatelessWidget {
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               columnWidths: const {
                 0: IntrinsicColumnWidth(), // label
-                1: FixedColumnWidth(8),   // titik dua
-                2: FlexColumnWidth(),     // isi
+                1: FixedColumnWidth(8), // titik dua
+                2: FlexColumnWidth(), // isi
               },
               children: const [
-                TableRow(children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: Text('Jumlah transaksi', style: TextStyle(color: Colors.black)),
-                  ),
-                  Text(':', style: TextStyle(color: Colors.black)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: Text('2 transaksi', style: TextStyle(color: Colors.black)),
-                  ),
-                ]),
-                TableRow(children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: Text('Total item dibeli', style: TextStyle(color: Colors.black)),
-                  ),
-                  Text(':', style: TextStyle(color: Colors.black)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: Text('2 item', style: TextStyle(color: Colors.black)),
-                  ),
-                ]),
-                TableRow(children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: Text('Nilai pembelian', style: TextStyle(color: Colors.black)),
-                  ),
-                  Text(':', style: TextStyle(color: Colors.black)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: Text('Rp 12.000.000', style: TextStyle(color: Colors.black)),
-                  ),
-                ]),
+                TableRow(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        'Jumlah transaksi',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    Text(':', style: TextStyle(color: Colors.black)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        '2 transaksi',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        'Total item dibeli',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    Text(':', style: TextStyle(color: Colors.black)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        '2 item',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        'Nilai pembelian',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    Text(':', style: TextStyle(color: Colors.black)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        'Rp 12.000.000',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
