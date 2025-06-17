@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import '../models/produkModel.dart'; 
+import '../widgets/produkCard.dart'; 
 
 class Foryou extends StatefulWidget {
   const Foryou({super.key});
@@ -10,30 +12,20 @@ class Foryou extends StatefulWidget {
 
 class _ForyouState extends State<Foryou> {
   Dio dio = Dio();
-  Future<dynamic> getData() async {
+
+  // Mendapatkan data dari API
+  Future<List<Produk>> getData() async {
     var response = await dio.get(
       "https://6842f697e1347494c31e9e6f.mockapi.io/api/v1/listBarang",
     );
     if (response.statusCode == 200) {
-      return response.data;
+      //Ubah list dynamic ke List<Produk> menggunakan fromJson
+      List data = response.data;
+      return data.map((json) => Produk.fromJson(json)).toList();
     } else {
       print("Gagal mengambil data");
-      return []; // kembalikan list kosong jika gagal
+      return [];
     }
-  }
-
-  // Future<String> UpdateData (int id)async{
-
-  //   var response = await dio.put("https://6842f697e1347494c31e9e6f.mockapi.io/api/v1/listBarang/${id}",data: {
-  //   });
-  //   if (response.statusCode == 200){
-  //     return response.data;
-  //   }
-  // }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -43,7 +35,7 @@ class _ForyouState extends State<Foryou> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder(
+            child: FutureBuilder<List<Produk>>(
               future: getData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -51,10 +43,11 @@ class _ForyouState extends State<Foryou> {
                 } else if (snapshot.hasError) {
                   return const Center(child: Text("Terjadi kesalahan"));
                 } else {
-                  List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(snapshot.data);
+                  List<Produk> data = snapshot.data ?? [];
+
                   return CustomScrollView(
                     slivers: [
-                      // Special Offers Section
+                      // Section: Special Offers
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
@@ -84,7 +77,7 @@ class _ForyouState extends State<Foryou> {
                         ),
                       ),
 
-                      // Image Section
+                      // Section: Gambar
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
@@ -93,7 +86,7 @@ class _ForyouState extends State<Foryou> {
                         ),
                       ),
 
-                      // Popular Section
+                      // Section: Popular
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -108,25 +101,17 @@ class _ForyouState extends State<Foryou> {
                         ),
                       ),
 
-                      // GridView Section
+                      // Section: Grid produk
                       SliverGrid(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
+                          childAspectRatio: 0.75,
                         ),
                         delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
-                            return Container(
-                              child: FloatingActionButton.extended(
-                                onPressed: (){}, 
-                                label: Text("")),
-                              margin: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            );
+                            return ProductCard(produk: data[index]);
                           },
                           childCount: data.length,
                         ),
@@ -138,7 +123,7 @@ class _ForyouState extends State<Foryou> {
             ),
           ),
         ],
-      )
+      ),
     );
   }
 }
