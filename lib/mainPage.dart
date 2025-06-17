@@ -15,7 +15,7 @@ class _MainpageState extends State<Mainpage> {
       appBar: AppBar(
         backgroundColor: Color(0xff75C2F6),
         toolbarHeight: 150,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.all(Radius.circular(40))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(40))),
       ),
       body: Column(),
       bottomNavigationBar: BottomAppBar(
