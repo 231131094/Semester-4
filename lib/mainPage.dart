@@ -15,22 +15,6 @@ class _MainpageState extends State<Mainpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xff75C2F6),
-      //   toolbarHeight: 150,
-      //   shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.all(Radius.circular(40))),
-      //   centerTitle:true,
-      //   title: Text("sBN", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),),
-      //   actions: [
-      //     IconButton(
-      //       color: Colors.white,
-      //       iconSize: 35,
-      //       onPressed: (){}, 
-      //       icon: Icon(Icons.notifications_rounded)
-      //     )
-      //   ],
-        
-      // ),
       
       //body 
       body: Column(
