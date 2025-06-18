@@ -1,4 +1,4 @@
-import 'package:e_commerce/user_model.dart';
+import 'package:e_commerce/model/user_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> saveExampleUser() async {

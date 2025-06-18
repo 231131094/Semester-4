@@ -1,16 +1,15 @@
+import 'package:e_commerce/view/transaksi.dart';
+import 'package:e_commerce/model/user_model.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ProductDetailUI(),
-    ),
-  );
-}
+import '../model/produkModel.dart';
+import 'package:provider/provider.dart';
+import 'package:e_commerce/controller/user_provider.dart';
 
 class ProductDetailUI extends StatefulWidget {
-  const ProductDetailUI({super.key});
+  final Produk produk;
+  final User user;
+
+  const ProductDetailUI({super.key, required this.produk, required this.user});
 
   @override
   State<ProductDetailUI> createState() => _ProductDetailUIState();
@@ -27,39 +26,68 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
     Colors.orange,
   ];
 
+  final List<String> colorNames = [
+    "Red",
+    "Green",
+    "Blue",
+    "Orange",
+  ];
+
+  Future<void> _addToWishlist() async {
+    try {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      await userProvider.addToWishlist(widget.produk);
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Produk ditambahkan ke wishlist')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal menambahkan ke wishlist: ${e.toString()}')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFDDFDF),
+        backgroundColor: const Color(0xFFF4D160),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("Product", style: TextStyle(color: Colors.black)),
+        title: const Text("Product", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         centerTitle: true,
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(Icons.shopping_bag_outlined, color: Colors.black),
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              icon: const Icon(Icons.shopping_bag, color: Colors.white),
+              onPressed: _addToWishlist,
+            ),
           ),
         ],
       ),
-      // backgroundColor: const Color(0xFFFDDFDF), // HAPUS baris ini!
       body: Column(
         children: [
           Container(
             height: 200,
             decoration: const BoxDecoration(
-              color: Color(0xFFFDDFDF),
+              color: Color(0xFFF4D160),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
               ),
             ),
-            child: const Center(
-              child: Text("Gambar Produk", style: TextStyle(fontSize: 18)),
+            child: Center(
+              child: Image.network(
+                widget.produk.gambar,
+                fit: BoxFit.contain,
+                errorBuilder:
+                    (_, __, ___) => const Icon(Icons.image_not_supported),
+              ),
             ),
           ),
           Expanded(
@@ -79,18 +107,21 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                       const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            "Nama Toko",
-                            style: TextStyle(
+                            widget.produk.namaToko,
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
                           ),
-                          SizedBox(height: 2),
+                          const SizedBox(height: 2),
                           Text(
-                            "Tangerang",
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                            widget.produk.kota,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
                           ),
                         ],
                       ),
@@ -102,9 +133,9 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    "Sofa Tuxedo",
-                    style: TextStyle(
+                  Text(
+                    widget.produk.nama,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -138,10 +169,9 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    "Deskripsi produk akan ditampilkan di sini. "
-                    "Ini adalah tempat untuk informasi detail tentang produk.",
-                    style: TextStyle(color: Colors.grey),
+                  Text(
+                    widget.produk.deskripsi,
+                    style: const TextStyle(color: Colors.black),
                   ),
                   const SizedBox(height: 20),
                   const Text(
@@ -240,10 +270,10 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                   const SizedBox(height: 35),
                   Row(
                     children: [
-                      const Text(
-                        "IDR 500.000",
-                        style: TextStyle(
-                          fontSize: 18,
+                      Text(
+                        "IDR ${(widget.produk.harga).toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]}.')}",
+                        style: const TextStyle(
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -295,13 +325,20 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                                         Container(
                                           height: 80,
                                           decoration: BoxDecoration(
-                                            color: Colors.grey[300],
+                                            color: Color(0xFFFFFF),
                                             borderRadius: BorderRadius.circular(
                                               10,
                                             ),
                                           ),
-                                          child: const Center(
-                                            child: Text("Gambar Produk"),
+                                          child: Center(
+                                            child: Image.network(
+                                              widget.produk.gambar,
+                                              fit: BoxFit.contain,
+                                              errorBuilder:
+                                                  (_, __, ___) => const Text(
+                                                    "Gambar Produk",
+                                                  ),
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(height: 16),
@@ -311,17 +348,17 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                const Text(
-                                                  "Sofa Tuxedo",
-                                                  style: TextStyle(
+                                                Text(
+                                                  widget.produk.nama,
+                                                  style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black,
                                                   ),
                                                 ),
                                                 Text(
                                                   selectedColorIndex != null
-                                                      ? colorOptions[selectedColorIndex!].toString().split('(')[1].split(')')[0]
-                                                      : "Color: Not selected",
+                                                      ? "Color : ${colorNames[selectedColorIndex!]}"
+                                                      : "Color : Not selected",
                                                   style: const TextStyle(
                                                     color: Colors.black,
                                                   ),
@@ -351,21 +388,31 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                                         SizedBox(
                                           width: double.infinity,
                                           child: ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                    "Pembayaran berhasil!",
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                                            onPressed: () async {
+  Navigator.pop(context); // Tutup dialog
+  try {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.addTransaction(widget.user, widget.produk);
+    await userProvider.recordTransaction(widget.user, widget.produk);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Payment successful!')),
+    );
+    // Navigasi ke TransactionPage
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TransactionPage(user: widget.user),
+      ),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: ${e.toString()}')),
+    );
+  }
+},
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: const Color(
-                                                0xFFAF3E3E,
+                                                0xFFF4D160,
                                               ),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -392,7 +439,8 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFAF3E3E),
+                          backgroundColor: const Color(0xFFF4D160),
+                          minimumSize: const Size(150, 50),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 24,
                             vertical: 12,
@@ -403,7 +451,7 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                         ),
                         child: const Text(
                           "Buy Now",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 25),
                         ),
                       ),
                     ],

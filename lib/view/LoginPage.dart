@@ -1,9 +1,10 @@
-import 'package:e_commerce/RegistPage.dart';
-import 'package:e_commerce/account.dart';
-import '../mainPage.dart';
+import 'package:e_commerce/view/RegistPage.dart';
+import 'package:e_commerce/view/account.dart';
+import 'mainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:e_commerce/user_provider.dart';
+import 'package:e_commerce/controller/user_provider.dart';
+import 'package:e_commerce/view/forYou.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -13,7 +14,8 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
-  final TextEditingController _usernameOrEmailController = TextEditingController();
+  final TextEditingController _usernameOrEmailController =
+      TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _loginUser() async {
@@ -22,7 +24,9 @@ class _LoginpageState extends State<Loginpage> {
 
     if (usernameOrEmail.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter both username/email and password')),
+        const SnackBar(
+          content: Text('Please enter both username/email and password'),
+        ),
       );
       return;
     }
@@ -30,15 +34,16 @@ class _LoginpageState extends State<Loginpage> {
     try {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       await userProvider.loginUser(usernameOrEmail, password);
-      
+
+      final currentUser = userProvider.user;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => AccountScreen()),
+        MaterialPageRoute(builder: (context) => Mainpage(user: currentUser)),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Login failed: ${e.toString()}')));
     }
   }
 
@@ -57,7 +62,7 @@ class _LoginpageState extends State<Loginpage> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_rounded), 
+          icon: const Icon(Icons.arrow_back_rounded),
           mouseCursor: SystemMouseCursors.click,
         ),
       ),
@@ -78,25 +83,25 @@ class _LoginpageState extends State<Loginpage> {
                       fit: BoxFit.cover,
                       height: 250,
                     ),
-                  )
+                  ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Welcome Back!", 
+                    "Welcome Back!",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold, 
-                      fontSize: 45, 
-                      color: Colors.black
+                      fontWeight: FontWeight.bold,
+                      fontSize: 45,
+                      color: Colors.black,
                     ),
                   ),
                   const Text(
                     "Sign in to your account.",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold, 
-                      color: Colors.black
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -105,12 +110,12 @@ class _LoginpageState extends State<Loginpage> {
                     style: const TextStyle(fontSize: 14, color: Colors.black),
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
                       icon: const Icon(Icons.supervised_user_circle_outlined),
                       iconColor: Colors.black,
                       hintText: "Username / Email",
-                      hintStyle: const TextStyle(color: Colors.black)
+                      hintStyle: const TextStyle(color: Colors.black),
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -120,22 +125,22 @@ class _LoginpageState extends State<Loginpage> {
                     obscureText: true,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
                       icon: const Icon(Icons.key),
                       iconColor: Colors.black,
                       hintText: "Password",
-                      hintStyle: const TextStyle(color: Colors.black)
+                      hintStyle: const TextStyle(color: Colors.black),
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: (){}, 
+                        onPressed: () {},
                         child: const Text(
-                          "Forgot password?", 
-                          style: TextStyle(color: Colors.black)
+                          "Forgot password?",
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     ],
@@ -146,16 +151,16 @@ class _LoginpageState extends State<Loginpage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
-                        ), 
-                        backgroundColor: Colors.grey[800]
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.grey[800],
                       ),
                       onPressed: _loginUser,
                       child: const Text(
-                        "Login", 
+                        "Login",
                         style: TextStyle(
-                          fontWeight: FontWeight.bold, 
-                          color: Colors.white
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -164,8 +169,11 @@ class _LoginpageState extends State<Loginpage> {
                   Row(
                     children: [
                       Expanded(child: Divider(color: Colors.grey[400])),
-                      Text(" Or continue with ", style: TextStyle(color: Colors.grey[500])),
-                      Expanded(child: Divider(color: Colors.grey[400]))
+                      Text(
+                        " Or continue with ",
+                        style: TextStyle(color: Colors.grey[500]),
+                      ),
+                      Expanded(child: Divider(color: Colors.grey[400])),
                     ],
                   ),
                   const SizedBox(height: 40),
@@ -173,19 +181,23 @@ class _LoginpageState extends State<Loginpage> {
                     children: [
                       Expanded(
                         child: IconButton(
-                          onPressed: (){}, 
+                          onPressed: () {},
                           icon: const Icon(Icons.g_mobiledata_rounded),
-                          style: IconButton.styleFrom(backgroundColor: Colors.amber)
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.amber,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 20),
                       Expanded(
                         child: IconButton(
-                          onPressed: (){}, 
-                          icon: const Icon(Icons.facebook_rounded), 
-                          style: IconButton.styleFrom(backgroundColor: Colors.blue),
+                          onPressed: () {},
+                          icon: const Icon(Icons.facebook_rounded),
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -193,18 +205,21 @@ class _LoginpageState extends State<Loginpage> {
                     padding: const EdgeInsets.all(25),
                     child: Center(
                       child: TextButton(
-                        onPressed: () => Navigator.push(
-                          context, 
-                          MaterialPageRoute(builder: (context) => const Registpage())
-                        ), 
+                        onPressed:
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Registpage(),
+                              ),
+                            ),
                         child: const Text(
-                          "Create An Account", 
-                          style: TextStyle(color: Colors.black)
+                          "Create An Account",
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30)
+                  const SizedBox(height: 30),
                 ],
               ),
             ],

@@ -1,20 +1,21 @@
-import 'package:e_commerce/widgets/BottomNavBar.dart';
+import 'package:e_commerce/view/transaksi.dart';
+import 'package:e_commerce/model/user_model.dart';
+import 'package:e_commerce/controller/BottomNavBar.dart';
+import 'package:e_commerce/view/wishlist.dart';
 import 'package:flutter/material.dart';
-import 'package:e_commerce/user_provider.dart';
-import 'package:e_commerce/profile.dart';
-import 'package:e_commerce/grafik.dart';
+import 'package:e_commerce/controller/user_provider.dart';
+import 'package:e_commerce/view/profile.dart';
+import 'package:e_commerce/view/grafik.dart';
 import 'package:provider/provider.dart';
 
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({super.key});
+  final User user;
+  const AccountScreen({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
     final user = userProvider.user;
-    
-    // Debug print to check the current user
-    debugPrint('Current user in AccountScreen: ${user.toString()}');
 
     return Scaffold(
       appBar: null,
@@ -24,7 +25,6 @@ class AccountScreen extends StatelessWidget {
           children: [
             const SizedBox(height: kToolbarHeight),
 
-            // User info section
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -78,7 +78,6 @@ class AccountScreen extends StatelessWidget {
               ),
             ),
 
-            // Menu items
             _buildMenuItem(context, Icons.person, 'Profil', () {
               Navigator.push(
                 context,
@@ -87,14 +86,22 @@ class AccountScreen extends StatelessWidget {
                 ),
               );
             }),
-            _buildMenuItem(context, Icons.receipt, 'Daftar Transaksi'),
-            _buildMenuItem(context, Icons.favorite, 'Wishlist'),
+            _buildMenuItem(context, Icons.receipt, 'Daftar Transaksi', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TransactionPage(user: user)),
+              );
+            }),
+            _buildMenuItem(context, Icons.favorite, 'Wishlist', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => WishlistPage(user: user)),
+              );
+            }),
             _buildMenuItem(context, Icons.bar_chart, 'Grafik', () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const GrafikScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => GrafikScreen(user: user)),
               );
             }),
             _buildMenuItem(context, Icons.payment, 'Metode Pembayaran'),
@@ -104,38 +111,41 @@ class AccountScreen extends StatelessWidget {
             _buildMenuItem(context, Icons.security, 'Pusat Keamanan'),
             _buildMenuItem(context, Icons.language, 'Bahasa & Tampilan'),
             _buildMenuItem(context, Icons.info, 'Tentang Aplikasi'),
-            _buildMenuItem(context, Icons.logout, 'Log out', () {
-              userProvider.logout();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                '/login', 
-                (Route<dynamic> route) => false
-              );
-            }),
 
+            Center(
+              child: Material(
+                color: Color(0xFFF4D160),
+                borderRadius: BorderRadius.circular(7),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(50),
+                  onTap: () {
+                    userProvider.logout();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/login',
+                      (Route<dynamic> route) => false,
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: const Text(
+                      'Log out',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 20),
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'For You'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Bag'),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.receipt),
-      //       label: 'Transaction',
-      //     ),
-      //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
-      //   ],
-      //   currentIndex: 3,
-      //   onTap: (index) {
-      //     // Handle navigation
-      //   },
-      // ),
-
-      bottomNavigationBar: Bottomnavbar(),
-
-      
+      bottomNavigationBar: Bottomnavbar(user: user),
     );
   }
 
@@ -147,10 +157,6 @@ class AccountScreen extends StatelessWidget {
   ]) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEAEBD0),
-        borderRadius: BorderRadius.circular(12),
-      ),
       child: ListTile(
         leading: Icon(icon, color: Colors.black),
         title: Text(title, style: const TextStyle(color: Colors.black)),

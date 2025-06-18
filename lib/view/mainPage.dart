@@ -1,11 +1,13 @@
-import 'package:e_commerce/Pages/forYou.dart';
+import 'package:e_commerce/view/forYou.dart';
+import 'package:e_commerce/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import "./widgets/customAppBar.dart";
-import './widgets/BottomNavBar.dart';
+import "../controller/customAppBar.dart";
+import '../controller/BottomNavBar.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({super.key});
+  final User user;
+  const Mainpage({super.key, required this.user});
 
   @override
   State<Mainpage> createState() => _MainpageState();
@@ -15,7 +17,7 @@ class _MainpageState extends State<Mainpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[800],
+      backgroundColor: Colors.white,
       // appBar: AppBar(
       //   backgroundColor: Color(0xff75C2F6),
       //   toolbarHeight: 150,
@@ -38,13 +40,13 @@ class _MainpageState extends State<Mainpage> {
         children: [
           const CustomSearchAppBar(),
           Expanded(
-            child: Foryou()
+            child: Foryou(user: widget.user)
           )
         ],
       ),
 
       //nav bawah
-      bottomNavigationBar: Bottomnavbar(),
+      bottomNavigationBar: Bottomnavbar(user: widget.user),
 
       // bottomNavigationBar: BottomAppBar(
       //   height: 100,

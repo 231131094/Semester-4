@@ -54,10 +54,10 @@ class User {
   // Empty/default user factory constructor
   factory User.empty() => const User(
     name: "",
-    username: "SemogaBisaNgoding",
+    username: "",
     bio: "",
-    userId: "SBN001",
-    email: "SBN@gmail.com",
+    userId: "",
+    email: "",
     phoneNumber: "",
     gender: "",
     birthDate: "",
