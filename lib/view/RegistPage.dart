@@ -83,7 +83,7 @@ class _RegistpageState extends State<Registpage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
           child: Column(
