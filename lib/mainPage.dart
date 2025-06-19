@@ -1,7 +1,7 @@
 import 'package:e_commerce/Pages/forYou.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import "./widgets/customAppBar.dart";
+import './widgets/BottomNavBar.dart';
 
 class Mainpage extends StatefulWidget {
   const Mainpage({super.key});
@@ -27,24 +27,7 @@ class _MainpageState extends State<Mainpage> {
       ),
 
       //nav bawah
-      bottomNavigationBar: Container(
-        color: Colors.black,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-          child: GNav(
-            gap: 8,
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            tabBackgroundColor: Colors.grey.shade800,
-            activeColor: Colors.white,
-            tabs:[
-            GButton(icon: Icons.thumb_up_alt_rounded,text: "For You",),
-            GButton(icon: Icons.shopping_bag_rounded,text: "Bag",),
-            GButton(icon: Icons.list_alt_rounded, text: "Transaction",),
-            GButton(icon: Icons.account_circle_rounded, text: "User",),
-          ]),
-        ),
-      ),
+      bottomNavigationBar: Bottomnavbar(),
 
       // bottomNavigationBar: BottomAppBar(
       //   height: 100,
