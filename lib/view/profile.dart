@@ -1,6 +1,8 @@
+import 'package:e_commerce/controller/BottomNavBar.dart';
+import 'package:e_commerce/view/LoginPage.dart';
 import 'package:flutter/material.dart';
-import 'package:e_commerce/editProfileScreen.dart';
-import 'package:e_commerce/user_provider.dart';
+import 'package:e_commerce/view/editProfileScreen.dart';
+import 'package:e_commerce/controller/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProfileInfoScreen extends StatelessWidget {
@@ -65,7 +67,7 @@ class ProfileInfoScreen extends StatelessWidget {
                 icon: const Icon(Icons.edit),
                 label: const Text("Edit Profil"),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFAF3E3E),
+                  backgroundColor: const Color(0xFF75C2F6),
                   foregroundColor: Colors.white,
                 ),
               ),
@@ -99,32 +101,37 @@ class ProfileInfoScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Akun berhasil dihapus')),
                   );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Loginpage()),
+                  );
                 },
                 child: const Text(
                   'Hapus Akun',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Color(0xFF3C00AC)),
                 ),
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'For You'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Bag'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: 'Transaction',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
-        ],
-        currentIndex: 3,
-        onTap: (index) {
-          // Handle navigation
-        },
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   type: BottomNavigationBarType.fixed,
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'For You'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Bag'),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.receipt),
+      //       label: 'Transaction',
+      //     ),
+      //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
+      //   ],
+      //   currentIndex: 3,
+      //   onTap: (index) {
+      //     // Handle navigation
+      //   },
+      // ),
+      bottomNavigationBar: Bottomnavbar(user: user),
     );
   }
 

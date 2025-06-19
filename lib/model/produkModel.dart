@@ -1,10 +1,27 @@
+import 'package:hive/hive.dart';
+part 'produkModel.g.dart';
+
+@HiveType(typeId: 1)
 class Produk {
+  @HiveField(0)
   final String nama;
-  final String harga;
+  
+  @HiveField(1)
+  final num harga;
+  
+  @HiveField(2)
   final String deskripsi;
+  
+  @HiveField(3)
   final String gambar;
+  
+  @HiveField(4)
   final String namaToko;
+  
+  @HiveField(5)
   final String kota;
+  
+  @HiveField(6)
   final String id;
 
   Produk({

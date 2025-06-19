@@ -13,7 +13,7 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 50, 16, 20),
       decoration: BoxDecoration(
-        color: Colors.lightBlue[300], // Warna latar belakang biru muda
+        color: Colors.lightBlue[300],
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -22,7 +22,6 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Row judul dan notifikasi
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -34,15 +33,11 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Icon(
-                Icons.notifications,
-                color: Colors.white,
-              )
+              Icon(Icons.notifications, color: Colors.white),
             ],
           ),
           const SizedBox(height: 20),
 
-          // Search bar
           Row(
             children: [
               Expanded(
@@ -70,7 +65,6 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
                 ),
               ),
               const SizedBox(width: 10),
-              // Tombol filter
               Container(
                 height: 45,
                 width: 45,
@@ -78,11 +72,8 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  Icons.filter_list,
-                  color: Colors.lightBlue,
-                ),
-              )
+                child: Icon(Icons.filter_list, color: Colors.lightBlue),
+              ),
             ],
           ),
         ],

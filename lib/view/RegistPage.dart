@@ -1,8 +1,8 @@
-import 'package:e_commerce/Pages/LoginPage.dart';
+import 'package:e_commerce/view/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:e_commerce/user_provider.dart';
-import 'package:e_commerce/user_model.dart';
+import 'package:e_commerce/controller/user_provider.dart';
+import 'package:e_commerce/model/user_model.dart';
 
 class Registpage extends StatefulWidget {
   const Registpage({super.key});
@@ -17,20 +17,20 @@ class _RegistpageState extends State<Registpage> {
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _registerUser() async {
-    final username = _usernameController.text.trim();
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
+    final username = _usernameController.text.trim().toLowerCase();
+    final email = _emailController.text.trim().toLowerCase();
+    final password = _passwordController.text.trim().toLowerCase();
 
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill all fields')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please fill all fields')));
       return;
     }
 
     try {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
-      
+
       final newUser = User(
         name: username,
         username: username,
@@ -44,22 +44,21 @@ class _RegistpageState extends State<Registpage> {
         profilePicture: null,
         password: password,
       );
-      
+
       await userProvider.registerUser(newUser);
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration successful!')),
-      );
-      
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Registration successful!')));
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Loginpage()),
       );
-
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
     }
   }
 
@@ -74,17 +73,17 @@ class _RegistpageState extends State<Registpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_rounded), 
-          mouseCursor: SystemMouseCursors.click,
-        ),
-      ),
+      // appBar: AppBar(
+      //   iconTheme: const IconThemeData(color: Colors.black),
+      //   backgroundColor: Colors.white,
+      //   leading: IconButton(
+      //     onPressed: () => Navigator.pop(context),
+      //     icon: const Icon(Icons.arrow_back_rounded),
+      //     mouseCursor: SystemMouseCursors.click,
+      //   ),
+      // ),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
           child: Column(
@@ -100,25 +99,25 @@ class _RegistpageState extends State<Registpage> {
                       fit: BoxFit.cover,
                       height: 250,
                     ),
-                  )
+                  ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Sign Up", 
+                    "Sign Up",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold, 
-                      fontSize: 45, 
-                      color: Colors.black
+                      fontWeight: FontWeight.bold,
+                      fontSize: 45,
+                      color: Colors.black,
                     ),
                   ),
                   const Text(
-                    "Create an account and order easily.", 
+                    "Create an account and order easily.",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold, 
-                      color: Colors.black
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -127,28 +126,31 @@ class _RegistpageState extends State<Registpage> {
                     keyboardType: TextInputType.name,
                     style: const TextStyle(fontSize: 14),
                     decoration: InputDecoration(
+                      labelText: "Username",
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
                       hintText: "Username",
                       icon: const Icon(Icons.supervised_user_circle_rounded),
                       iconColor: Colors.black,
-                      hintStyle: const TextStyle(color: Colors.black)
+                      hintStyle: const TextStyle(color: Colors.black),
                     ),
                   ),
                   const SizedBox(height: 10),
                   TextField(
+                    
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     style: const TextStyle(fontSize: 14),
                     decoration: InputDecoration(
+                      labelText: "Email",
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
                       hintText: "Email",
                       icon: const Icon(Icons.email),
                       iconColor: Colors.black,
-                      hintStyle: const TextStyle(color: Colors.black)
+                      hintStyle: const TextStyle(color: Colors.black),
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -158,13 +160,14 @@ class _RegistpageState extends State<Registpage> {
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     decoration: InputDecoration(
+                      labelText: "Password",
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
                       hintText: "Password",
                       hintStyle: const TextStyle(color: Colors.black),
                       icon: const Icon(Icons.key),
-                      iconColor: Colors.black
+                      iconColor: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -174,16 +177,16 @@ class _RegistpageState extends State<Registpage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        backgroundColor: Colors.grey[800]
+                        backgroundColor: Colors.grey[800],
                       ),
                       onPressed: _registerUser,
                       child: const Text(
-                        "Register", 
+                        "Register",
                         style: TextStyle(
-                          fontWeight: FontWeight.bold, 
-                          color: Colors.white
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -192,8 +195,11 @@ class _RegistpageState extends State<Registpage> {
                   Row(
                     children: [
                       const Expanded(child: Divider()),
-                      Text(" Or continue with ", style: TextStyle(color: Colors.grey[500])),
-                      const Expanded(child: Divider())
+                      Text(
+                        " Or continue with ",
+                        style: TextStyle(color: Colors.grey[500]),
+                      ),
+                      const Expanded(child: Divider()),
                     ],
                   ),
                   const SizedBox(height: 40),
@@ -201,37 +207,44 @@ class _RegistpageState extends State<Registpage> {
                     children: [
                       Expanded(
                         child: IconButton(
-                          onPressed: (){}, 
+                          onPressed: () {},
                           icon: const Icon(Icons.g_mobiledata_rounded),
-                          style: IconButton.styleFrom(backgroundColor: Colors.amber)
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.amber,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 20),
                       Expanded(
                         child: IconButton(
-                          onPressed: (){}, 
-                          icon: const Icon(Icons.facebook_rounded), 
-                          style: IconButton.styleFrom(backgroundColor: Colors.blue),
+                          onPressed: () {},
+                          icon: const Icon(Icons.facebook_rounded),
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(25),
+                    padding: const EdgeInsets.all(15),
                     child: Center(
                       child: TextButton(
-                        onPressed: () => Navigator.push(
-                          context, 
-                          MaterialPageRoute(builder: (context) => const Loginpage())
-                        ), 
+                        onPressed:
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Loginpage(),
+                              ),
+                            ),
                         child: const Text(
-                          "Already Have An Account? Login", 
-                          style: TextStyle(color: Colors.black)
+                          "Already Have An Account? Login",
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10)
+                  const SizedBox(height: 10),
                 ],
               ),
             ],
